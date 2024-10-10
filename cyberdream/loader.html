@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="assets\cyberdreamico.ico">
+    <title>Please wait . . .</title>
+    <style>
+        html,
+        body {
+            background: url(assets/cyberhacker.gif);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+        }
+
+        .blur {
+            background-color: #00000090;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .title {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            z-index: 10;
+            font-size: 32pt;
+            font-weight: 300;
+            font-family: "Orbitron", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            letter-spacing: 5px;
+            color: white;
+        }
+
+        .dots span {
+            opacity: 0;
+            animation: blink 1.5s infinite;
+        }
+
+        .dots span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dots span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .dots span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blur"></div>
+    <div class="title">
+        <p>Loading<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+    </div>
+
+    <audio id="audio" src="assets/cybertrack.mp3" autoplay muted></audio>
+
+    <script>
+        // Попытка воспроизведения после клика
+        document.addEventListener('click', function () {
+            var audio = document.getElementById('audio');
+            audio.muted = false;
+            audio.play().catch(function (error) {
+                console.log('Автовоспроизведение заблокировано:', error);
+            });
+        });
+
+        // Перенаправление на main.html через 10 секунд
+        setTimeout(function () {
+            window.location.href = "main.html";
+        }, 8000);
+    </script>
+</body>
+
+</html>

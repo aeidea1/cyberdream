@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="assets/cyberdreamico.ico">
+    <title>CYBERDREAM | Место силы</title>
+</head>
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Montserrat", system-ui;
+        scroll-behavior: smooth;
+    }
+
+    body::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: #000000;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: #028c32;
+        border-radius: 20px;
+    }
+
+    .navbar {
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        height: 50px;
+        margin-bottom: 50px;
+        background-color: #000000;
+        z-index: 100;
+    }
+
+    .navbar a {
+        text-decoration: none;
+    }
+
+    .navbar p {
+        color: white;
+        font-size: 10pt;
+        padding: 15px;
+        transition: all 0.5s;
+    }
+
+    .navbar p:hover {
+        transition: all 0.5s;
+        color: #d1d1d1;
+    }
+
+    .audio-settings-button {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 10px;
+        border-radius: 100px;
+        cursor: pointer;
+        user-select: none;
+        animation-name: rotation;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .audio-settings-button img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .audio-controls {
+        position: fixed;
+        bottom: 65px;
+        right: 35px;
+        width: 220px;
+        padding: 15px;
+        background-color: #000000b8;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 4px 15px #00000099;
+        z-index: 10;
+        color: white;
+        font-size: 10pt;
+    }
+
+    .audio-title {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+
+    .audio-buttons {
+        display: flex;
+        justify-content: center;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+    }
+
+    .audio-buttons i {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .audio-buttons i:hover {
+        transform: scale(1.2);
+    }
+
+    .audio-controls input[type="range"] {
+        width: 60px;
+        height: 5px;
+        margin-left: -1em;
+        border-radius: 10px;
+        -webkit-appearance: none;
+        background-color: white;
+    }
+
+    .audio-controls input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background-color: white;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .track-list {
+        margin-top: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+        width: 100%;
+        text-align: center;
+        color: white;
+    }
+
+    .track-list::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .track-list::-webkit-scrollbar-thumb {
+        background-color: #028c32;
+        border-radius: 5px;
+    }
+
+    .track-list div {
+        cursor: pointer;
+        padding: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .track-list div:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .main-frame {
+        background: url(assets/morana.gif);
+        background-repeat: no-repeat;
+        background-size: cover;
+        align-self: center;
+        width: 100%;
+        height: 100vh;
+        scroll-snap-align: center;
+    }
+
+    .blur-main-frame {
+        background-color: #061d25d8;
+        z-index: 1;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .main-frame-content {
+        z-index: 10;
+        color: white;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-frame-content p:first-child {
+        font-size: 32pt;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 600;
+        letter-spacing: 5px;
+        line-height: 1;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        color: #ffffff;
+    }
+
+    .main-frame-content p {
+        font-size: 12pt;
+        line-height: 1.5;
+        text-align: center;
+        font-weight: 200;
+        color: #ffffff;
+    }
+
+    .main-frame-content input {
+        font-size: 10pt;
+        font-family: "Montserrat", system-ui;
+        padding: 5px;
+        width: 150px;
+        height: 40px;
+        color: white;
+        border-radius: 5px;
+        border: 0;
+        background-color: #000000b8;
+        box-shadow: 0px 4px 15px #00000099;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    .main-frame-content input:active {
+        transition: all 0.5s;
+        color: white;
+        background-color: #221d38;
+    }
+
+    .me {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #0c0c1b;
+        align-self: center;
+        width: 100%;
+        height: 100vh;
+        scroll-snap-align: center;
+    }
+
+    .me img {
+        position: absolute;
+        right: 5%;
+        padding-top: 70px;
+        user-select: none;
+    }
+
+    .me-text {
+        color: #dedede;
+        font-weight: 300;
+        text-align: left;
+        padding-left: 350px;
+        padding-right: 350px;
+        font-size: 12pt;
+    }
+
+    .me-text p:first-child {
+        font-size: 18pt;
+        text-align: center;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 5px;
+    }
+
+    #edlist {
+        line-height: 2em;
+    }
+
+    .work {
+        background: url(assets/akira.gif);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        align-self: center;
+        width: 100%;
+        height: 100vh;
+        scroll-snap-align: center;
+    }
+
+    .work-blur-frame {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        background-color: #061d25d8;
+        z-index: 1;
+        width: 100%;
+        height: 100vh;
+    }
+
+    .work-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: left;
+        color: #d1d1d1;
+        padding-left: 250px;
+        padding-right: 50px;
+    }
+
+    .work-text p:first-child {
+        font-size: 20pt;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 5px;
+        margin-bottom: 5px;
+    }
+
+    .work-text p {
+        padding-left: 50px;
+        padding-right: 25px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+
+    #edlist {
+        line-height: 2em;
+    }
+
+    .work-text input {
+        margin-top: 0px;
+        font-size: 10pt;
+        font-family: "Montserrat", system-ui;
+        padding: 5px;
+        width: 150px;
+        height: 40px;
+        color: white;
+        border-radius: 5px;
+        border: 0;
+        background-color: #000000b8;
+        box-shadow: 0px 4px 15px #00000099;
+        cursor: pointer;
+        transition: all 0.5s;
+    }
+
+    .work-text input:active {
+        transition: all 0.5s;
+        color: white;
+        background-color: #221d38;
+    }
+
+    .work-text li {
+        line-height: 1.5em;
+    }
+
+    .work-img {
+        padding-right: 150px;
+    }
+
+    .connection {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #0c0c1b;
+        align-self: center;
+        width: 100%;
+        height: 100vh;
+        scroll-snap-align: center;
+    }
+
+    .connection-title {
+        font-family: "Orbitron", sans-serif;
+        font-size: 18pt;
+        letter-spacing: 5px;
+        color: white;
+    }
+
+    .contact-block {
+        display: flex;
+        justify-content: center;
+        color: white;
+        display: flex;
+        text-align: left;
+        flex-direction: column;
+        z-index: 10;
+    }
+
+    .contact-block input {
+        font-family: "Montserrat", system-ui;
+        margin: 10px;
+        width: 290px;
+        height: 40px;
+        border-radius: 1px;
+        border: 0;
+        font-size: 11pt;
+        font-weight: 400;
+        cursor: pointer;
+    }
+
+    #Discord {
+        transition: all 0.5s;
+        background-color: #560bba;
+        color: white;
+    }
+
+    #Discord:active {
+        transition: all 0.5s;
+        background-color: #221d38;
+    }
+
+    #VK {
+        transition: all 0.5s;
+        background-color: #4769a4;
+        color: white;
+    }
+
+    #VK:active {
+        transition: all 0.5s;
+        background-color: #221d38;
+    }
+
+    #TG {
+        transition: all 0.5s;
+        background-color: #1c4b9b;
+        color: white;
+    }
+
+    #TG:active {
+        transition: all 0.5s;
+        background-color: #221d38;
+    }
+
+    #GH {
+        transition: all 0.5s;
+        background-color: #e8e8e8;
+        color: #000000;
+    }
+
+    #GH:active {
+        transition: all 0.5s;
+        color: white;
+        background-color: #221d38;
+    }
+</style>
+
+<body>
+    <div class="navbar">
+        <a href="#main-frame">
+            <p>Главная</p>
+        </a>
+        <a href="#me">
+            <p>Обо мне</p>
+        </a>
+        <a href="#work">
+            <p>Работы</p>
+        </a>
+        <a href="#connection">
+            <p>Связь со мной</p>
+        </a>
+    </div>
+
+    <audio id="audio"></audio>
+
+    <div class="audio-settings-button" onclick="toggleAudioControls()">
+        <img src="assets/spotify.png">
+    </div>
+
+    <div class="audio-controls" id="audio-controls">
+        <div class="audio-title" id="audio-title">Название трека</div>
+        <div class="audio-buttons">
+            <i class="backward-icon" onclick="previousAudio()"><</i>
+            <i class="play-pause-icon" onclick="playPauseAudio()">||</i>
+            <i class="forward-icon" onclick="nextAudio()">></i>
+            <i class="mute-icon" onclick="muteAudio()">P</i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+        </div>
+        <div class="track-list" id="track-list"></div>
+    </div>
+
+    <div class="main-frame" id="main-frame">
+        <div class="blur-main-frame">
+            <div class="main-frame-content">
+                <p>CYBERDREAM</p>
+                <p>by Front-end & Back-end devoloper @aeideal</p>
+                <a href="#connection"><input type="button" value="Заказать работу"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="me" id="me">
+        <img src="assets\gov.gif">
+        <div class="me-text">
+            <p>About me</p>
+
+            <p>Я — Сембаев Амангельды, IT-специалист с многолетним опытом в разработке веб-приложений, программировании и дизайне.
+                Моя карьера охватывает разнообразные проекты, начиная от небольших стартапов и заканчивая крупными корпоративными решениями.
+                Я специализируюсь на создании современных, функциональных и визуально привлекательных веб-приложений, ориентированных на потребности клиента.
+            </p>
+
+                <p>Мои ключевые навыки включают:</p>
+
+                    <ul>
+                        <li id="edlist">Frontend и Backend разработка:</li>
+                        <li id="edlist">HTML5, CSS3, JavaScript, React, Vue.js, Node.js</li>
+                        <li id="edlist">Дизайн и UX/UI: Figma, Adobe XD, Photoshop — акцент на креативные решения</li>
+                        <li id="edlist">Программирование: Python, PHP, C#, C++, с опытом работы с фреймворками и библиотеками</li>
+                        <li id="edlist">Проектирование и разработка баз данных: MySQL, MongoDB, PostgreSQL</li>
+                    </ul>
+
+                <p>Кроме того, я активно работаю над образовательными и развлекательными проектами, обучая программированию и IT-направлениям,
+                    а также создаю досуговые решения, такие как интерактивные игры и приложения для разных платформ.
+                </p>
+
+                <p>
+                    Моя цель — помогать компаниям и индивидуальным клиентам развиваться, используя современные IT-решения. Постоянное стремление к совершенствованию
+                    и изучению новых технологий позволяет мне быть на шаг впереди в быстро меняющемся мире цифровых технологий.
+                </p>
+        </div>
+    </div>
+
+    <div class="work" id="work">
+        <div class="work-blur-frame">
+            <div class="work-text">
+                <p>Work</p>
+                <p>По ссылке вы можете ознакомиться с моими проектами и работами в IT-сфере,
+                    а написав мне можно заказать разработку под ваши индивидуальные потребности.
+                    Я предлагаю следующие виды услуг:</p>
+                    <ul>
+                        <li>Веб-разработка</li>
+                        <li>UI/UX дизайн</li>
+                        <li>Мобильные приложения</li>
+                        <li>Графический дизайн</li>
+                        <li>Консультации и обучение</li>
+                        <li>Моддинг сайтов</li>
+                    </ul>
+                <a href="https://disk.yandex.ru/client/disk/CYBERDREAM"><input type="button" value="Посмотреть"></a>
+            </div>
+            <div class="work-img">
+                <img src="assets\money.gif">
+            </div>
+        </div>
+    </div>
+
+    <div class="connection" id="connection">
+        <div class="connection-title">
+            <p>CONNECTION</p>
+        </div>
+        <div class="contact-block">
+            <a href="https://discord.com/channels/@me/1280846484841041951"><input id="Discord" type="button" value="Discord"></a>
+            <a href="https://vk.com/ae.ideal"><input id="VK" type="button" value="ВКонтакте"></a>
+            <a href="https://t.me/@ae_ideal"><input id="TG" type="button" value="Telegram"></a>
+            <a href="https://github.com/aeidea1"><input id="GH" type="button" value="GitHub"></a>
+        </div>
+    </div>
+
+    <script>
+        // Треки
+        const audioTracks = ['assets/worldstar.mp3', 'assets/coldstreeze.mp3', 'assets/no idea.mp3', 'assets/love song.mp3', 'assets/internet love.mp3', 'assets/fuck love.mp3', 'assets/dreamspace.mp3', 'assets/nights like this.mp3', 'assets/let go.mp3', 'assets/крылья.mp3', 'assets/night.mp3', 'assets/evangelion.mp3', 'assets/fireflies.mp3', 'assets/oneheart.mp3', 'assets/memory.mp3', 'assets/out the window.mp3', 'assets/the beach.mp3', 'assets/крайности.mp3'];
+        const trackNames = ['worldstar money', 'dont leave me here', 'no idea', 'love song', 'internet love', 'fuck love', 'dreamspace', 'nights like this', 'let go', 'крылья', 'night', 'evangelion', 'fireflies', 'oneheart', 'memory', 'out the window', 'the beach', 'крайности'];
+        let currentTrack = 0;
+        const audioElement = document.getElementById('audio');
+        const audioTitle = document.getElementById('audio-title');
+        const volumeSlider = document.getElementById('volume-slider');
+        const trackList = document.getElementById('track-list');
+
+        function updateTrackTitle() {
+            audioTitle.textContent = trackNames[currentTrack];
+        }
+
+        function playTrack() {
+            audioElement.src = audioTracks[currentTrack];
+            audioElement.play();
+            updateTrackTitle();
+        }
+
+        audioElement.addEventListener('ended', nextAudio);
+
+        function nextAudio() {
+            currentTrack = (currentTrack + 1) % audioTracks.length;
+            playTrack();
+        }
+
+        function previousAudio() {
+            currentTrack = (currentTrack - 1 + audioTracks.length) % audioTracks.length;
+            playTrack();
+        }
+
+        function playPauseAudio() {
+            if (audioElement.paused) {
+                audioElement.play();
+            } else {
+                audioElement.pause();
+            }
+        }
+
+        function muteAudio() {
+            audioElement.muted = !audioElement.muted;
+            volumeSlider.value = audioElement.muted ? 0 : audioElement.volume;
+        }
+
+        function setVolume(value) {
+            audioElement.volume = value;
+            audioElement.muted = value == 0;
+        }
+
+        function toggleAudioControls() {
+            const controls = document.getElementById('audio-controls');
+            controls.style.display = controls.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        document.addEventListener('click', function (event) {
+            const controls = document.getElementById('audio-controls');
+            const settingsButton = document.querySelector('.audio-settings-button');
+            if (!controls.contains(event.target) && !settingsButton.contains(event.target)) {
+                controls.style.display = 'none';
+            }
+        });
+
+        // Генерация списка треков
+        trackNames.forEach((trackName, index) => {
+            const trackElement = document.createElement('div');
+            trackElement.textContent = trackName;
+            trackElement.onclick = () => {
+                currentTrack = index;
+                playTrack();
+            };
+            trackList.appendChild(trackElement);
+        });
+
+        function playTrack() {
+            audioElement.src = audioTracks[currentTrack];
+            audioElement.play();
+            updateTrackTitle();
+        }
+    </script>
+</body>
+
+</html>
